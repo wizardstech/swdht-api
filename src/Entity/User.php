@@ -1,11 +1,12 @@
 <?php
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Table(name="users")
+ * @ORM\Table(name="account")
  * @ORM\Entity
  */
 class User implements UserInterface
@@ -32,6 +33,12 @@ class User implements UserInterface
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
     public function __construct($username)
     {
         $this->isActive = true;
@@ -55,7 +62,7 @@ class User implements UserInterface
     }
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->roles;
     }
     public function eraseCredentials()
     {
@@ -81,6 +88,13 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
