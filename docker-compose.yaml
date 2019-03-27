@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  reverse-proxy:
+    image: traefik
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  php:
+    image: php:7.3-fpm-alpine
+    depends_on:
+      - db
+    volumes:
+      - ./:/srv:rw
+      - ./var:/srv/var:rw,cached
+
+  web:
+    image: nginx:1.15-alpine
+    labels:
+      - "traefik.frontend.rule=Host:swdht-api.test"
+    depends_on:
+      - php
+    volumes:
+      - ./public:/srv/public:ro
+      - ./.docker/nginx:/etc/nginx/conf.d:ro
+
+  db:
+    image: postgres:9.6-alpine
+    labels:
+      - "traefik.frontend.rule=Host:swdht-db.test"
+    environment:
+      - POSTGRES_DB=swdht
+      - POSTGRES_USER=swdht
+      - POSTGRES_PASSWORD=swdht
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data: {}
