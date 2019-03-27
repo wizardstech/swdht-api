@@ -1,6 +1,5 @@
-App\Entity\User:
+App\Entity\Invoice:
   attributes:
-    access_control: 'is_granted("ROLE_ADMIN")'
     normalization_context:
       groups: ['read']
     denormalization_context:

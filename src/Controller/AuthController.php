@@ -15,15 +15,18 @@ class AuthController extends AbstractController
 
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
+        $role = $request->request->get('_role');
 
         $user = new User($username);
         $user->setPassword($encoder->encodePassword($user, $password));
+        $user->setRoles([$role]);
+
         $em->persist($user);
         $em->flush();
         return new Response(sprintf('User %s successfully created', $user->getUsername()));
     }
     public function api()
     {
-        return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
+        return new Response(json_encode(['auth' => true]));
     }
 }

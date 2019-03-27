@@ -1,4 +1,4 @@
-#index:
+#indCex:
 #    path: /
 #    controller: App\Controller\DefaultController::index
 register:
@@ -7,9 +7,9 @@ register:
     methods: POST
 
 api:
-    path: /api
+    path: /api/auth
     controller: App\Controller\AuthController::api
 
 login_check:
-    path: /login_check
+    path: /api/login_check
     methods: [POST]
