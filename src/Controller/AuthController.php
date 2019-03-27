@@ -27,7 +27,6 @@ class AuthController extends AbstractController
     }
     public function api()
     {
-        return new Response(sprintf('Roles %s', implode(',',$this->getUser()->getRoles())));
-        // return new Response(sprintf('Connected as %s', $this->getUser()->getUsername()));
+        return new Response(json_encode(['auth' => true]));
     }
 }

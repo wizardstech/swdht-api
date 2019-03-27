@@ -37,7 +37,7 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
         checkAuth:
-            pattern:  ^/auth
+            pattern:  ^/api/auth
             stateless: true
             anonymous: false
             provider: entity_provider
